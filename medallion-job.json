@@ -1,0 +1,47 @@
+{
+  "job_id": 310862747162365,
+  "name": "Medallion Pipeline Orchestration",
+  "format": "MULTI_TASK",
+  "max_concurrent_runs": 1,
+  "schedule": {
+    "pause_status": "UNPAUSED",
+    "quartz_cron_expression": "0 0 0 * * ?",
+    "timezone_id": "Asia/Kolkata"
+  },
+  "queue": {
+    "enabled": true
+  },
+  "tasks": [
+    {
+      "task_key": "bronze_update",
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "032b54d9-6ae8-473c-9856-eb62adbf741b"
+      }
+    },
+    {
+      "task_key": "silver_update",
+      "run_if": "ALL_SUCCESS",
+      "depends_on": [
+        {
+          "task_key": "bronze_update"
+        }
+      ],
+      "pipeline_task": {
+        "pipeline_id": "39251f48-2134-410e-9677-f836faa0dec0"
+      }
+    },
+    {
+      "task_key": "gold_update",
+      "run_if": "ALL_SUCCESS",
+      "depends_on": [
+        {
+          "task_key": "silver_update"
+        }
+      ],
+      "pipeline_task": {
+        "pipeline_id": "efcfff38-3273-431f-838c-2a2c8234b6f0"
+      }
+    }
+  ]
+}

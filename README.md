@@ -17,6 +17,8 @@ medallion-pipeline-tpch/
 ├── contracts.md
 ├── ai_rules.md
 ├── README.md
+└── jobs/
+    └── medallion-job.json
 ```
 
 ## Layer and Table Summary

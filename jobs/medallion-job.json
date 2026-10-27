@@ -1,0 +1,58 @@
+{
+  "name": "Medallion Pipeline Orchestration",
+  "format": "MULTI_TASK",
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "schedule": {
+    "quartz_cron_expression": "0 0 0 * * ?",
+    "timezone_id": "Asia/Kolkata",
+    "pause_status": "UNPAUSED"
+  },
+  "queue": {
+    "enabled": true
+  },
+  "email_notifications": {},
+  "webhook_notifications": {},
+  "tasks": [
+    {
+      "task_key": "bronze_update",
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "032b54d9-6ae8-473c-9856-eb62adbf741b"
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "disabled": false
+    },
+    {
+      "task_key": "silver_update",
+      "depends_on": [
+        {
+          "task_key": "bronze_update"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "39251f48-2134-410e-9677-f836faa0dec0"
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "disabled": false
+    },
+    {
+      "task_key": "gold_update",
+      "depends_on": [
+        {
+          "task_key": "silver_update"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "efcfff38-3273-431f-838c-2a2c8234b6f0"
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "disabled": false
+    }
+  ]
+}
